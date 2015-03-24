@@ -6,17 +6,25 @@
 #include<iostream>
 
 namespace Freeman{
+
+	void newhandler(){
+		std::cout<<"No memory on heap"<<std::endl;
+		throw std::bad_alloc();
+	}
+
 	template< typename T>
 		inline T* _allocate(ptrdiff_t size, T*){
-			set_new_handler(0);
+		//What's wrong here ?
+		//	set_new_handler(newhandler);
+			T *tmp = nullptr;
 			try{
 				//use golbal operator new to allocate heap memory 
 				//Doesn't call constructor
-				T *tmp = (T*)(::opertor new((size_t)(size * sizeof(T))));//global
-				return tmp;
+				tmp = (T*)(::operator new((size_t)(size * sizeof(T))));//global
 			}catch(std::bad_alloc& ba){
-				std::cerr<<"bad_alloc catched : "<<ba.what()<<endl;
+				std::cerr<<"bad_alloc catched : "<<ba.what()<<std::endl;
 			}
+			return tmp;
 		}
 
 	template< typename T>
@@ -24,7 +32,7 @@ namespace Freeman{
 			::operator delete(buffer);
 		}
 
-	template< typename T>
+	template< typename T1, typename T2>
 		inline void _construct(T1 *p, const T2& value){
 			//using placement new to constrct object on given memory
 			//1)	use T2 object to constuct a T1 object(temporary object)
@@ -80,7 +88,7 @@ namespace Freeman{
 				}
 
 				size_type max_size() const{
-					return (size_type)(UINT_MAX / sizeofA(T));
+					return (size_type)(UINT_MAX / sizeof(T));
 				}
 
 		};//end of class Allocator
