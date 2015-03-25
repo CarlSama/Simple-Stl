@@ -15,13 +15,6 @@ class auto_ptr {
 		explicit auto_ptr(Tp *__p == nullptr) : _content(__p) {}
 		auto_ptr(const auto_ptr& __ref) : _content(ref._content) {}
 
-		auto_ptr& operator = (auot_ptr& __ref){
-			if( &__ref != this){
-				delete _content;
-				_content = __ref.release();
-			}
-			return *this;
-		}
 		
 		~auot_ptr() {
 			delete _content;
@@ -50,6 +43,11 @@ class auto_ptr {
 				delete _content;
 				_content = __p;
 			}
+		}
+
+		auto_ptr& operator = (auot_ptr& __ref){
+			reset(__ref._content);
+			return *this;
 		}
 };
 
