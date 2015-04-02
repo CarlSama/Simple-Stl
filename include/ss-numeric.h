@@ -119,4 +119,38 @@ void iota(ForwardIterator beign,ForwardIterator end,Tp val) {
 		*begin++ = val++;
 	}
 }
+
+/*
+ * power
+ */
+template<typename Tp,typename Integer>
+inline Tp power(Tp x, Integer n) {
+	if(n == 0)
+		return 1; //我们将0^0看做１
+	if(x == 0)
+		return 0;//我们将0^x看做０
+	Tp result = 1;	
+	bool isNeg = false;
+
+	if(n < 0){
+		n *= -1;
+		isNeg = true;
+	}
+
+	while( n ) {
+		if( n % 2 == 1){
+			result *= x;
+		}else {
+			n = n * n;
+		}
+		n = n >> 1;
+	}
+	if(isNeg){
+		return 1 / result;
+	}else{
+		return result;
+	}
+}
+		
+
 #endif
