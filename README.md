@@ -4,6 +4,10 @@ This is stl implementation based on sgi version.
 
 Free to copy and modified.
 
+Feel free to contact me : carlsama@163.com  
+
+:)
+
 Some to say :
 	1) Only use built-in class Allocator to manage memory, so it's by now un-able to appoint third-party allocator for container here.
 
