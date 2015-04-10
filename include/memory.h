@@ -5,6 +5,7 @@
 #include "iterator.h"
 #include "type-traits.h"
 #include "cstring"
+#include <utility>
 
 namespace Freeman {
 	//Becare of overwrite
@@ -69,27 +70,27 @@ namespace Freeman {
 	 *
 	 * Function : copy [first , first + n ) to [ res , res + n)
 	 *
-	 * Return type : pair<first + n , res + n>
+	 * Return type : std::pair<first + n , res + n>
 	 */
 	template<typename InputIter,typename Size,typename ForwardIter>
-	pair<InputIter,ForwardIter> _uninitialized_copy_n(InputIter _first,Size _count,ForwardIter _res, input_iterator_tag) {
+	std::pair<InputIter,ForwardIter> _uninitialized_copy_n(InputIter _first,Size _count,ForwardIter _res, input_iterator_tag) {
 		ForwardIter _curr = _res;
 		try {
 			for (; _count > 0 ;--_count, ++_first, ++_curr){
 				construct(_curr, *_first);
 			}
-			return pair<InputIter, ForwardIter>(_first,_curr);
+			return std::pair<InputIter, ForwardIter>(_first,_curr);
 		}catch (...){
 			destory(_res,_curr);
 		}
 	}
 	template<typename RandomAccessIter,typename Size,typename ForwardIter>
-	pair<RandomAccessIter,ForwardIter> _uninitialized_copy_n(InputIter _first,Size _count,RandomAccessIter _res, random_access_iterator_tag) {
+	std::pair<RandomAccessIter,ForwardIter> _uninitialized_copy_n(RandomAccessIter _first,Size _count,ForwardIter _res, random_access_iterator_tag) {
 		RandomAccessIter _last = _first + _count;
-		return pair<RandomAccessIter,ForwardIter>(_last,uninitialized_copy(_first,_last,_re));
+		return std::pair<RandomAccessIter,ForwardIter>(_last,uninitialized_copy(_first,_last,_res));
 	}
 	template<typename IputIter,typename Size,typename ForwardIter>
-	inline pair<IputIter,ForwardIter> uninitialized_copy_n(IputIter _first,Size _count,ForwardIter _res) {
+	inline std::pair<IputIter,ForwardIter> uninitialized_copy_n(IputIter _first,Size _count,ForwardIter _res) {
 		return _uninitialized_copy_n(_first,_count,_res, iterator_category(_first));
 	}
 
@@ -103,11 +104,11 @@ namespace Freeman {
 	 * Return type : void
 	 */
 	template<typename ForwardIter,typename Tp>
-	inline void _uninitialized_fill_aux(ForwardIter _first,ForwardIter _last,const Tp& _val, _true_type) {
+	inline void _uninitialized_fill(ForwardIter _first,ForwardIter _last,const Tp& _val, _true_type) {
 		fill(_first,_last,_val);
 	}
 	template<typename ForwardIter,typename Tp>
-	void _uninitialized_fill_aux(ForwardIter _first,ForwardIter _last,const Tp& _val, _false_type) {
+	void _uninitialized_fill(ForwardIter _first,ForwardIter _last,const Tp& _val, _false_type) {
 		ForwardIter _cur = _first;
 		try {
 			for( ; _cur != _last ; ++_cur) {
@@ -117,15 +118,11 @@ namespace Freeman {
 			destory(_first,_cur);
 		}
 	}
-	template<typename ForwardIter,typename Tp,typename Tpp>
-	inline void _uninitialized_fill(ForwardIter _first,ForwardIter _last,const Tp& _val,Tpp* ) {
-		typedef typename type_traits<Tp>::is_POD_type is_POD;
-	}
 	template<typename ForwardIter, typename Tp>
 	inline void uninitialized_fill(ForwardIter _first,ForwardIter _last,const Tp& _val) {
 		typedef typename iterator_traits<ForwardIter>::value_type TYPE;
 		typedef typename type_traits<TYPE>::is_POD_type isPOD;
-		_uninitialized_fill_aux(_first,_last,_val,isPOD());
+		_uninitialized_fill(_first,_last,_val,isPOD());
 	}
 		
 
