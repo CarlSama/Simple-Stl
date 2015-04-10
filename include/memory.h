@@ -73,9 +73,9 @@ namespace Freeman {
 	 */
 	template<typename InputIter,typename Size,typename ForwardIter>
 	pair<InputIter,ForwardIter> _uninitialized_copy_n(InputIter _first,Size _count,ForwardIter _res, input_iterator_tag) {
+		ForwardIter _curr = _res;
 		try {
-			ForwardIter _curr = _res;
-			for (; _count > 0 ;--_count, ++_first++, ++_curr){
+			for (; _count > 0 ;--_count, ++_first, ++_curr){
 				construct(_curr, *_first);
 			}
 			return pair<InputIter, ForwardIter>(_first,_curr);
@@ -120,11 +120,12 @@ namespace Freeman {
 	template<typename ForwardIter,typename Tp,typename Tpp>
 	inline void _uninitialized_fill(ForwardIter _first,ForwardIter _last,const Tp& _val,Tpp* ) {
 		typedef typename type_traits<Tp>::is_POD_type is_POD;
-		_uninitialized_fill_aux(_first,_last,_val,is_POD());
 	}
 	template<typename ForwardIter, typename Tp>
 	inline void uninitialized_fill(ForwardIter _first,ForwardIter _last,const Tp& _val) {
-		_uninitialized_fill(_first,_last,_val,value_type(_first));
+		typedef typename iterator_traits<ForwardIter>::value_type TYPE;
+		typedef typename type_traits<TYPE>::is_POD_type isPOD;
+		_uninitialized_fill_aux(_first,_last,_val,isPOD());
 	}
 		
 
@@ -144,7 +145,7 @@ namespace Freeman {
 	inline ForwardIter _uninitialized_fill_n_aux(ForwardIter _first, Size _n,const Tp& _val, _false_type){
 		ForwardIter _cur = _first;
 		try { 
-			for(;_n > = ; --_n, ++ _cur, ++first) {
+			for(;_n >= 0 ; --_n, ++ _cur) {
 				construct(_cur, _val);
 			}
 			return _cur;
@@ -152,14 +153,11 @@ namespace Freeman {
 			destory(_first,_cur);
 		}
 	}
-	template<typename ForwardIter,typename Size,typename Tp>
-		inline _uninitialized_fill_n(ForwardIter _first,Size _n,const Tp& _val,Tp *) {
-			typedef typename type_traits<Tp>::is_POD_type is_POD;
-			return _uninitialized_fill_n_aux(_first,_n,_val,is_POD());
-		}
 	template <typename ForwardIter,typename Size,typename Tp>
 		inline ForwardIter uninitialized_fill_n(ForwardIter _first,Size _n,const Tp & _val){
-			return _uninitialized_fill_n(_first,_n,_val,value_type(_first));
+			typedef typename iterator_traits<ForwardIter>::value_type TYPE;
+			typedef typename type_traits<TYPE>::is_POD_type isPOD;
+			return _uninitialized_fill_n(_first,_n,_val,isPOD());
 		}
 }
 #endif
