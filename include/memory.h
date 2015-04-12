@@ -6,6 +6,8 @@
 #include "type-traits.h"
 #include "cstring"
 #include <utility>
+#include "memory.h"
+#include "simple-algorithm.h"
 
 namespace Freeman {
 	//Becare of overwrite
@@ -31,12 +33,12 @@ namespace Freeman {
 	 */
 	//is POD
 	template<typename InputIter,typename ForwardIter>
-	inline ForwardIter _uninitialized_copy_aux(InputIter _first, InputIter _last, ForwardIter _res, _true_type) {
+    inline ForwardIter _uninitialized_copy(InputIter _first, InputIter _last, ForwardIter _res, _true_type) {
 		return copy(_first,_last,_res);
 	}
 	//not POD
 	template<typename InputIter,typename ForwardIter>
-	inline ForwardIter _uninitialized_copy_aux(InputIter _first,InputIter _last,ForwardIter _res,_false_type) {
+    inline ForwardIter _uninitialized_copy(InputIter _first,InputIter _last,ForwardIter _res,_false_type) {
 		ForwardIter _curr = _res; 
 		try{
 			while(_first != _last) {
@@ -55,7 +57,7 @@ namespace Freeman {
 	inline ForwardIter uninitialized_copy(InputIter _first,InputIter _last,ForwardIter _res) {
 		typedef typename iterator_traits<ForwardIter>::value_type TYPE;
 		typedef typename type_traits<TYPE>::is_POD_type isPOD;
-		return _uninitialized_copy(_first,_last,_res,isPOD());
+        return _uninitialized_copy(_first,_last,_res,isPOD());
 	}
 	//specialization
 	inline char* uninitialized_copy(const char* _first,const char* _last,char* _res) {
