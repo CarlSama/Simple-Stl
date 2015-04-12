@@ -79,7 +79,7 @@ namespace Freeman{
 					this->end_of_data = uninitialized_copy(other.begin(),other.end(),begin());
 				}
 				
-				vector(const Tp* first,const Tp* last) : vector_alloc<Tp> (end() - begin()) {
+				vector(const Tp* first,const Tp* last) : vector_alloc<Tp> (last - first) {
 					this->end_of_data = uninitialized_copy(first,last,begin());
 				}
 
