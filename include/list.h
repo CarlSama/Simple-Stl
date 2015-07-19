@@ -452,7 +452,7 @@ namespace Freeman {
 				swap(curr->next,curr->prev);
 				curr = curr->prev;//the current prev is previous next
 			}while(curr != sentinal_head);
-		
+		}
 
 
 

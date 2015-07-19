@@ -358,7 +358,7 @@ namespace Freeman {
 				typedef void value_type;
 
 				template<class U>
-					struct rebint{
+					struct rebind{
 						typedef Allocator<U> other;
 					};
 		};

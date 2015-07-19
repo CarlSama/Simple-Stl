@@ -7,7 +7,6 @@
 namespace Freeman {
 
 
-
 	/*
 	 * Function : Check two range for equality
 	 *
@@ -223,6 +222,33 @@ namespace Freeman {
 		return dest + (end - begin);
 	}
 
+	/*
+	 * Function : copy [begin,end) to [...,dest)
+	 */
+	template<typename BidirectionalIterator1,typename BidirectionalIterator2>
+		inline BidirectionalIterator2 _copy_backward(BidirectionalIterator1 begin,BidirectionalIterator1 end,BidirectionalIterator2 dest,bidirectional_iterator_tag) {
+			while( end != begin ){
+				* -- dest = * --end;
+			}
+			return dest;
+		}
+
+	template<typename RandomAccessIterator1, typename RandomAccessIterator2>
+		inline RandomAccessIterator2 _copy_backward(RandomAccessIterator1 begin,RandomAccessIterator1 end,RandomAccessIterator2 dest,random_access_iterator_tag) {
+			typename iterator_traits<RandomAccessIterator1>::difference_type len;
+			len = end - begin;
+			while(len > 0){
+				* --dest = * -- end;
+				--len;
+			}
+			return dest;
+		}
+				
+	template<typename BidirectionalIterator1,typename BidirectionalIterator2>
+		inline BidirectionalIterator2 copy_backward(BidirectionalIterator1 begin,BidirectionalIterator1 end,BidirectionalIterator2 dest) {
+			typename iterator_traits<BidirectionalIterator1>::iterator_category ic;
+			_copy_backward(begin,end,dest,ic);
+		}
 
 
 	/*

@@ -39,6 +39,7 @@ namespace Freeman {
 	template< typename ForwardIterator >
     inline void __destory(ForwardIterator first, ForwardIterator last, _false_type){
 		//need to destory one by one
+		typedef typename iterator_traits<ForwardIterator>::value_type T;
 		while(first != last){
 			(&(*first))->~T();//获取对象地址(非迭代器地址)后调用析构函数
 			first++;
@@ -55,6 +56,12 @@ namespace Freeman {
         typename type_traits<type>::has_trival_destructor trival_destructor;
         _destory(first,last,trival_destructor);//获取迭代器所指类型
     }
+
+	template<typename ForwardIterator>
+		inline void destory(ForwardIterator iter) {
+			typedef typename iterator_traits<ForwardIterator>::value_type Tp;
+			iter->~Tp();
+		}
 
 	//特化版本
 	template<>

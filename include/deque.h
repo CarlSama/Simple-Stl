@@ -12,7 +12,10 @@
 namespace Freeman {
 
 	/*
-	 * Attention : 
+	 * Explination : 
+	 *
+	 *		There are two kind of range here. [first_of_buffer,end_of_buffer) in each buffer and [first_of_
+	 *	
 	 *		1) In deque_alloc, we use [first,last) to indicate the iterator range of valid rage in map.
 	 *		So in deque, [begin,end) would be mapped to [first,last)
 	 *

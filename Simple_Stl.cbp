@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Simple_Stl" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Simple_Stl" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option parameters="-fpremissive" />
+				<Compiler>
+					<Add option="-std=c++11" />
+					<Add option="-Wall" />
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="include/advance-algorithm.h" />
+		<Unit filename="include/allocator.h" />
+		<Unit filename="include/constructor.h" />
+		<Unit filename="include/iterator-ext.h" />
+		<Unit filename="include/iterator.h" />
+		<Unit filename="include/list.h" />
+		<Unit filename="include/memory.h" />
+		<Unit filename="include/numeric.h" />
+		<Unit filename="include/simple-algorithm.h" />
+		<Unit filename="include/smart-pointer.h" />
+		<Unit filename="include/tempbuffer.h" />
+		<Unit filename="include/type-traits.h" />
+		<Unit filename="include/vector-declare.h" />
+		<Unit filename="include/vector.h" />
+		<Unit filename="main.cpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
